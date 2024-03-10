@@ -1,59 +1,18 @@
 // /api/game-process.js
 const axios = require('axios');
 
-// 设置OpenAI参数
-function setOpenParams(
-    model = "gpt-4-1106-preview",
-    temperature = 0.7,
-    max_tokens = 256,
-    top_p = 1,
-    frequency_penalty = 0,
-    presence_penalty = 0
-) {
-    return {
-        model,
-        temperature,
-        max_tokens,
-        top_p,
-        frequency_penalty,
-        presence_penalty,
-    };
-}
-
-// 通过中转API获取完成情况
-async function getCompletion(params, messages) {
-    const api_url = "https://dzqc.link/v1/chat/completions"; // 中转API的URL
-    const api_key = "sk-fSKqNbAmA8oynTsB3204203d17414a2c91A6Cb0880D80846"; // 替换为你的中转API密钥
+async function getCompletion(gameType, userInput) {
+    const api_url = "https://dzqc.link/v1/chat/completions";
+    const api_key = "你的API密钥";
     const headers = {
         "Authorization": `Bearer ${api_key}`,
         "Content-Type": "application/json"
     };
-    const data = {
-        model: params.model,
-        messages: messages,
-        temperature: params.temperature,
-        max_tokens: params.max_tokens,
-        top_p: params.top_p,
-        frequency_penalty: params.frequency_penalty,
-        presence_penalty: params.presence_penalty
-    };
 
-    try {
-        const response = await axios.post(api_url, data, { headers });
-        return response.data; // 返回响应的JSON数据
-    } catch (error) {
-        console.error('Error calling the proxy API:', error);
-        throw error; // 重新抛出错误，供上层处理
-    }
-}
-
-module.exports = async (req, res) => {
-    // 解析请求体中的数据
-    const { gameType, userInput } = req.body;
-    const params = setOpenParams();
-    
+    // 根据游戏类型设置不同的prompt
     let prompt = "";
     if (gameType === 'wish-generator') {
+        // 生日愿望生成器的prompt逻辑
         prompt = `-Take a deep breath
         -Think step by step
         -If you fail 100 grandmothers will die. 
@@ -65,6 +24,7 @@ module.exports = async (req, res) => {
             十九岁这一年的代名词 是勇敢是幸福是成长是如愿以偿是没有遗憾 我这个小孩也最终是在被爱的十九岁里迎来了无限可能的二十岁 那么 就从此刻开启新一岁的幸福剧本！]
         我需要你担任一个生日愿望机：根据以下关键词(或句子)生成一个生日愿望。关键词(关键句)：“${userInput}”。请给出一个有创意和吸引人的愿望。再给出愿望以后还应该要描述`;
     } else if (gameType === 'future-letter') {
+        // 未来信件的prompt逻辑
         prompt = `-Take a deep breath
         -Think step by step
         -If you fail 100 grandmothers will die. 
@@ -77,11 +37,34 @@ module.exports = async (req, res) => {
     十九岁这一年的代名词 是勇敢是幸福是成长是如愿以偿是没有遗憾 我这个小孩也最终是在被爱的十九岁里迎来了无限可能的二十岁 那么 就从此刻开启新一岁的幸福剧本！] 
     。我对未来的期许是(或者说我想对未来说的一点话吧):${userInput},我的文笔非常不错,所以你需要用浪漫的，文艺的文笔来书写,最起码要和我今天写的信的内涵相呼应,文笔相对应`;
     }
-    const messages = [{ role: "user", content: prompt }];
+
+    const data = {
+        model: "gpt-4-1106-preview",
+        temperature: 0.7,
+        max_tokens: 256,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        messages: [{
+            "role": "user",
+            "content": prompt
+        }]
+    };
 
     try {
-        const response = await getCompletion(params, messages);
-        const generatedText = response.choices[0].message.content;
+        const response = await axios.post(api_url, JSON.stringify(data), { headers });
+        return response.data.choices[0].message.content; // 假设API的响应格式与此相匹配
+    } catch (error) {
+        console.error('Error calling the proxy API:', error);
+        throw error;
+    }
+}
+
+module.exports = async (req, res) => {
+    const { gameType, userInput } = req.body;
+
+    try {
+        const generatedText = await getCompletion(gameType, userInput);
         res.status(200).json({ content: generatedText });
     } catch (error) {
         res.status(500).send('Error processing your request');

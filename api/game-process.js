@@ -3,7 +3,7 @@ const axios = require('axios');
 
 async function getCompletion(gameType, userInput) {
     const api_url = "https://dzqc.link/v1/chat/completions";
-    const api_key = "你的API密钥";
+    const api_key = "sk-fSKqNbAmA8oynTsB3204203d17414a2c91A6Cb0880D80846";
     const headers = {
         "Authorization": `Bearer ${api_key}`,
         "Content-Type": "application/json"

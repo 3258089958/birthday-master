@@ -39,7 +39,7 @@ async function getCompletion(gameType, userInput) {
     }
 
     const data = {
-        model: "gpt-4",
+        model: "gpt-4-1106-preview",
         temperature: 0.7,
         max_tokens: 256,
         top_p: 1,

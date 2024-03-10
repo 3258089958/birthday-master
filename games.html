@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>生日游戏</title>
+    <link rel="stylesheet" type="text/css" href="games.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 class="title">选择一个游戏吧！</h1>
+
+    <div class="game-description">
+        <button id="wish-generator" class="game-button">生日愿望生成器</button>
+        <p class="description">
+            通过输入你的兴趣、爱好或未来的梦想，让我们为你生成一系列奇特而有趣的生日愿望。这是一个能够以意想不到的方式扩展你愿望的游戏，可能会提出一些你从未想过但听起来很有趣的愿望。
+        </p>
+    </div>
+
+    <div class="game-description">
+        <button id="future-letter" class="game-button">未来信件</button>
+        <p class="description">
+            想象一下，如果你能收到一封来自未来的信件，告诉你五年后的生活会是怎样？这个游戏就是基于这样的设想。输入你的名字或一个关键词，我们将生成一封描述你的未来生活、事业、以及个人成长等方面的信件。
+        </p>
+    </div>
+
+    <div id="game-input-section" class="input-section" style="display:none;">
+        <textarea id="game-input" class="game-input" placeholder="在这里输入你的兴趣、爱好或梦想..."></textarea>
+        <button id="submit-game-input" class="submit-button">提交</button>
+    </div>
+
+    <p id="game-output" class="game-output"></p>
+</div>
+
+<script src="games.js"></script>
+</body>
+</html>

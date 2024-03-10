@@ -2,8 +2,8 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #FCE4EC; /* 浅粉色背景 */
+    color: #444; /* 深色文字，以便阅读 */
 }
 
 .container {
@@ -11,10 +11,14 @@ body, html {
     margin: auto;
     padding: 20px;
     text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .title {
-    color: #007BFF;
+    color: #FF4081; /* 更明亮的颜色 */
     margin-bottom: 20px;
 }
 
@@ -31,12 +35,14 @@ body, html {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    background-color: #FF4081;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .game-button:hover {
     background-color: #0056b3;
 }
-
 .input-section {
     margin-bottom: 20px;
 }
@@ -59,6 +65,9 @@ body, html {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    background-color: #FF4081;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
@@ -66,15 +75,16 @@ body, html {
 }
 
 .game-output {
-    background-color: #fff;
-    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
     margin-top: 20px;
+    background-color: #fff;
+    border: 2px solid #FF4081;
 }
 .game-description {
     margin-bottom: 30px;
     text-align: center;
+    color: #666;
 }
 
 .description {
@@ -84,4 +94,11 @@ body, html {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto; /* 确保描述文字在容器中居中 */
+}
+/* 新增装饰性背景元素样式 */
+.decorative-element {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    opacity: 0.5;
 }
